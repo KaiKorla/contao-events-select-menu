@@ -1,0 +1,28 @@
+{
+  "name": "kaikorla/contao-events-select-menu",
+  "description": "Adds dynamic select menu based on an event calendar.",
+  "keywords": [
+    "contao"
+  ],
+  "type": "contao-bundle",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Kai Korla",
+      "homepage": "https://github.com/KaiKorla/contao-events-select-menu"
+    }
+  ],
+  "require": {
+    "php": "^8.3",
+    "contao/core-bundle": "^5.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "KaiKorla\\ContaoEventFormOptions\\": "src/"
+    }
+  },
+  "extra": {
+    "contao-manager-plugin": "KaiKorla\\ContaoEventFormOptions\\ContaoManagerPlugin"
+  },
+  "prefer-stable": true
+}

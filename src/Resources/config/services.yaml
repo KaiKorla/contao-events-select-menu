@@ -1,0 +1,6 @@
+services:
+  KaiKorla\ContaoEventFormOptions\Form\FormEventSelect:
+    public: true
+
+  KaiKorla\ContaoEventFormOptions\EventOptions:
+    public: true
