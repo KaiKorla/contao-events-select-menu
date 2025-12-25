@@ -29,7 +29,11 @@ class FormEventSelect extends FormSelect
     {
         $raw = EventOptions::getEventOptions((object) ['id' => $this->id]);
 
-        $this->options = array_map('strval', array_keys($raw));
+        $this->options = [];
+
+        foreach ($raw as $value => $label) {
+            $this->options[(string) $value] = (string) $label;
+        }
 
         parent::validate();
     }
