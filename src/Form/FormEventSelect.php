@@ -16,7 +16,7 @@ class FormEventSelect extends FormSelect
         foreach ($raw as $value => $label) {
             $arr[] = [
                 'type'     => 'option',
-                'value'    => (string) $value,
+                'value'    => $value,
                 'label'    => $label,
                 'selected' => '',
             ];
@@ -32,7 +32,7 @@ class FormEventSelect extends FormSelect
         $this->options = [];
 
         foreach ($raw as $value => $label) {
-            $this->options[(string) $value] = (string) $label;
+            $this->options[$value] = (string) $label;
         }
 
         parent::validate();
