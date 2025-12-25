@@ -24,4 +24,13 @@ class FormEventSelect extends FormSelect
 
         return $arr;
     }
+
+    public function validate(): void
+    {
+        $raw = EventOptions::getEventOptions((object) ['id' => $this->id]);
+
+        $this->options = array_map('strval', array_keys($raw));
+
+        parent::validate();
+    }
 }
