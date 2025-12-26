@@ -7,34 +7,14 @@ use KaiKorla\ContaoEventFormOptions\EventOptions;
 
 class FormEventSelect extends FormSelect
 {
-    protected function getOptions(): array
+
+    public function __construct($arrAttributes=null)
     {
+        parent::__construct($arrAttributes);
+
         $raw = EventOptions::getEventOptions((object) ['id' => $this->id]);
-
-        $arr = [];
-
         foreach ($raw as $value => $label) {
-            $arr[] = [
-                'type'     => 'option',
-                'value'    => $value,
-                'label'    => $label,
-                'selected' => '',
-            ];
+            $this->arrOptions[] = array('value' => $value, 'label' => $label);
         }
-
-        return $arr;
-    }
-
-    public function validate(): void
-    {
-        $raw = EventOptions::getEventOptions((object) ['id' => $this->id]);
-
-        $this->options = [];
-
-        foreach ($raw as $value => $label) {
-            $this->options[$value] = (string) $label;
-        }
-
-        parent::validate();
     }
 }
