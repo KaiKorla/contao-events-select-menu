@@ -7,7 +7,6 @@ use KaiKorla\ContaoEventFormOptions\EventOptions;
 
 class FormEventSelect extends FormSelect
 {
-
     public function __construct($arrAttributes=null)
     {
         parent::__construct($arrAttributes);
