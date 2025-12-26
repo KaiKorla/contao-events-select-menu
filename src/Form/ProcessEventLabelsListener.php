@@ -11,18 +11,29 @@ class ProcessEventLabelsListener
         array $formData,
         array $submittedFields
     ): void {
-        if (!isset($submittedData['event_id'])) {
-            return;
+        foreach ($submittedFields as $fieldName => $fieldConfig) {
+
+            if (
+                ($fieldConfig['type'] ?? null) !== 'event_select'
+                || empty($fieldConfig['event_calendar'])
+            ) {
+                continue;
+            }
+
+            if (!isset($submittedData[$fieldName])) {
+                continue;
+            }
+
+            $eventId = (string) $submittedData[$fieldName];
+            $calendarId = (int) $fieldConfig['event_calendar'];
+
+            $options = EventOptions::getEventOptions((object) ['id' => $calendarId]);
+
+            if (!isset($options[$eventId])) {
+                continue;
+            }
+
+            $submittedData[$fieldName . '_label'] = $options[$eventId];
         }
-
-        $eventId = (string) $submittedData['event_id'];
-
-        $options = EventOptions::getEventOptions((object) ['id' => null]);
-
-        if (!isset($options[$eventId])) {
-            return;
-        }
-
-        $submittedData['event_label'] = $options[$eventId];
     }
 }
