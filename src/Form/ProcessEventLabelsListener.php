@@ -13,10 +13,11 @@ class ProcessEventLabelsListener
     ): void {
         foreach ($submittedFields as $fieldName => $fieldConfig) {
 
-            if (
-                ($fieldConfig['type'] ?? null) !== 'event_select'
-                || empty($fieldConfig['event_calendar'])
-            ) {
+            if (($fieldConfig['type'] ?? null) !== 'form_event_select') {
+                continue;
+            }
+
+            if (empty($fieldConfig['eventOptionsCalendar'])) {
                 continue;
             }
 
@@ -24,8 +25,8 @@ class ProcessEventLabelsListener
                 continue;
             }
 
-            $eventId = (string) $submittedData[$fieldName];
-            $calendarId = (int) $fieldConfig['event_calendar'];
+            $calendarId = (int) $fieldConfig['eventOptionsCalendar'];
+            $eventId    = (string) $submittedData[$fieldName];
 
             $options = EventOptions::getEventOptions((object) ['id' => $calendarId]);
 
