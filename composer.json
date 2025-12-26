@@ -1,5 +1,6 @@
 {
   "name": "kaikorla/contao-events-select-menu",
+  "version": "1.0.13",
   "description": "Adds dynamic select menu based on an event calendar.",
   "keywords": [
     "contao"
