@@ -1,52 +1,39 @@
 <?php
 
-namespace KaiKorla\ContaoEventFormOptions;
+namespace KaiKorla\ContaoEventFormOptions\Form;
 
-use Contao\Database;
-use Contao\FormFieldModel;
-use Contao\StringUtil;
+use KaiKorla\ContaoEventFormOptions\EventOptions;
 
-class EventOptions
+class ProcessEventLabelsListener
 {
-    public static function getEventOptions($dc): array
-    {
-        if (!isset($dc->id)) {
-            return [];
-        }
+    public function onProcessFormData(
+        array &$submittedData,
+        array $formData,
+        array $submittedFields
+    ): void {
+        foreach ($submittedFields as $fieldName => $fieldConfig) {
 
-        $ff = FormFieldModel::findByPk($dc->id);
-
-        $dateFmt = $ff->eventOptionsDateFormat ?: 'd.m.Y';
-        $timeFmt = $ff->eventOptionsTimeFormat ?: 'H:i';
-        $now     = time();
-
-        $sql = "
-            SELECT id, title, startTime, endTime
-            FROM tl_calendar_events
-            WHERE pid=?
-              AND published='1'
-              AND (start='' OR start<=?)
-              AND (stop='' OR stop>=?)
-        ";
-
-        $db     = Database::getInstance();
-        $events = $db->prepare($sql)->execute($ff->eventOptionsCalendar,$now, $now);
-
-        $options = [];
-
-        while ($events->next()) {
-            $label = date($dateFmt, $events->startTime);
-
-            if ($events->endTime) {
-                $label .= ' '
-                    . date($timeFmt, $events->startTime)
-                    . ' - '
-                    . date($timeFmt, $events->endTime);
+            if (
+                ($fieldConfig['type'] ?? null) !== 'event_select'
+                || empty($fieldConfig['event_calendar'])
+            ) {
+                continue;
             }
 
-            $options[$events->id] = $events->title . ' | ' . $label;
-        }
+            if (!isset($submittedData[$fieldName])) {
+                continue;
+            }
 
-        return $options;
+            $eventId = (string) $submittedData[$fieldName];
+            $calendarId = (int) $fieldConfig['event_calendar'];
+
+            $options = EventOptions::getEventOptions((object) ['id' => $calendarId]);
+
+            if (!isset($options[$eventId])) {
+                continue;
+            }
+
+            $submittedData[$fieldName . '_label'] = $options[$eventId];
+        }
     }
 }
