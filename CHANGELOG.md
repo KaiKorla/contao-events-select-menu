@@ -7,6 +7,11 @@ and this project adheres to Semantic Versioning.
 
 ## [Unreleased]
 
+### Changed
+
+- Bumped package version to `1.0.14`.
+- Order event options by `startTime` ascending.
+
 ## [1.0.0] - 2025-12-08
 
 ### Added

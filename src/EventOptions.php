@@ -27,6 +27,7 @@ class EventOptions
               AND published='1'
               AND (start='' OR start<=?)
               AND (stop='' OR stop>=?)
+            ORDER BY startTime ASC
         ";
 
         $db     = Database::getInstance();
