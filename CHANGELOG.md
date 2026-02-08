@@ -9,7 +9,9 @@ and this project adheres to Semantic Versioning.
 
 ### Changed
 
-- Bumped package version to `1.0.14`.
+- Bumped package version to `1.0.15`.
+- Event options now only include events starting from tomorrow (`startTime >= tomorrow`).
+- Publication window (`start`/`stop`) is no longer considered for event option filtering.
 - Order event options by `startTime` ascending.
 
 ## [1.0.0] - 2025-12-08

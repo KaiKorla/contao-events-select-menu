@@ -18,20 +18,19 @@ class EventOptions
 
         $dateFmt = $ff->eventOptionsDateFormat ?: 'd.m.Y';
         $timeFmt = $ff->eventOptionsTimeFormat ?: 'H:i';
-        $now     = time();
+        $tomorrow = strtotime('tomorrow');
 
         $sql = "
             SELECT id, title, startTime, endTime
             FROM tl_calendar_events
             WHERE pid=?
-              AND published='1'
-              AND (start='' OR start<=?)
-              AND (stop='' OR stop>=?)
+            AND published='1'
+            AND startTime >= ?
             ORDER BY startTime ASC
         ";
 
         $db     = Database::getInstance();
-        $events = $db->prepare($sql)->execute($ff->eventOptionsCalendar,$now, $now);
+        $events = $db->prepare($sql)->execute($ff->eventOptionsCalendar,$tomorrow);
 
         $options = [];
 
